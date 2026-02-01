@@ -1,0 +1,7 @@
+Dear {{ caregiver.caregiver_name }},
+
+Please find attached the archive of your symptomlogs that you requested.
+
+Sincerely,
+
+The Dementia Tracker Team

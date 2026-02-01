@@ -1,0 +1,96 @@
+2025-09-23 13:51:07,328 ERROR: Exception on /index [GET] [in D:\dementia\venv\Lib\site-packages\flask\app.py:1414]
+Traceback (most recent call last):
+  File "D:\dementia\venv\Lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\dementia\venv\Lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\dementia\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\dementia\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\dementia\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\dementia\app\routes.py", line 21, in index
+    symptomlogs = current_user.symptomlogs.order_by(SymptomLog.timestamp.desc()).all()
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'WriteOnlyCollection' object has no attribute 'order_by'
+2025-09-23 13:51:10,724 ERROR: Exception on / [GET] [in D:\dementia\venv\Lib\site-packages\flask\app.py:1414]
+Traceback (most recent call last):
+  File "D:\dementia\venv\Lib\site-packages\flask\app.py", line 2190, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\dementia\venv\Lib\site-packages\flask\app.py", line 1486, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\dementia\venv\Lib\site-packages\flask\app.py", line 1484, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\dementia\venv\Lib\site-packages\flask\app.py", line 1469, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\dementia\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\dementia\app\routes.py", line 21, in index
+    symptomlogs = current_user.symptomlogs.order_by(SymptomLog.timestamp.desc()).all()
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'WriteOnlyCollection' object has no attribute 'order_by'
+2025-09-23 13:52:50,033 INFO: Dementia startup [in D:\dementia\app\__init__.py:45]
+2025-09-23 16:53:37,635 INFO: Dementia startup [in D:\dementia\app\__init__.py:45]
+2025-09-23 17:01:25,680 INFO: Dementia startup [in D:\dementia\app\__init__.py:45]
+2025-09-23 17:03:54,233 INFO: Dementia startup [in D:\dementia\app\__init__.py:45]
+2025-09-24 16:50:04,802 INFO: Dementia startup [in D:\dementia\app\__init__.py:44]
+2025-09-24 16:50:32,310 INFO: Dementia startup [in D:\dementia\app\__init__.py:44]
+2025-09-25 13:22:45,376 INFO: Dementia startup [in D:\dementia\app\__init__.py:44]
+2025-09-25 13:23:28,922 INFO: Dementia startup [in D:\dementia\app\__init__.py:44]
+2025-09-25 13:26:41,378 INFO: Dementia startup [in D:\dementia\app\__init__.py:44]
+2025-09-25 13:42:20,500 INFO: Dementia startup [in D:\dementia\app\__init__.py:44]
+2025-10-02 13:43:25,887 INFO: Dementia startup [in D:\dementia\app\__init__.py:80]
+2025-10-02 17:56:36,796 INFO: Dementia startup [in D:\dementia\app\__init__.py:83]
+2025-10-02 17:56:48,412 INFO: Dementia startup [in D:\dementia\app\__init__.py:83]
+2025-10-02 17:56:48,412 INFO: Dementia startup [in D:\dementia\app\__init__.py:83]
+2025-10-02 18:01:25,329 INFO: Dementia startup [in D:\dementia\app\__init__.py:83]
+2025-11-26 16:26:05,541 INFO: Dementia Tracker startup [in D:\dementia\app\__init__.py:61]
+2025-11-26 16:26:44,127 INFO: Dementia Tracker startup [in D:\dementia\app\__init__.py:61]
+2025-12-02 14:05:52,842 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-02 14:06:03,655 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-02 14:06:12,636 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-02 14:09:24,720 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-02 14:28:11,049 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-03 10:20:19,693 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-03 10:21:03,903 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-03 10:22:39,642 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-03 10:54:45,162 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-03 10:54:46,295 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-03 11:01:34,434 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-03 11:01:35,542 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-03 11:06:59,128 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-03 11:07:00,184 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-03 11:13:41,900 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-03 11:13:42,949 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-03 11:14:51,369 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-03 11:17:25,700 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-03 11:19:01,946 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-03 12:45:55,246 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-03 13:05:09,963 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-04 13:55:55,746 INFO: Dementia Tracker startup [in D:\dementia\app\__init__.py:61]
+2025-12-05 15:37:42,332 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-05 15:40:19,662 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-09 10:16:28,670 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-09 10:22:14,732 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-09 10:31:31,969 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-09 10:45:36,801 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-09 10:58:08,817 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-09 11:19:50,150 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-09 12:36:01,744 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-09 12:45:11,500 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-09 14:16:26,212 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-09 14:19:23,948 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-10 10:18:00,560 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:61]
+2025-12-17 11:42:51,100 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:70]
+2025-12-17 12:51:32,234 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:70]
+2025-12-17 13:00:31,356 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:70]
+2025-12-17 13:06:15,185 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:65]
+2025-12-23 11:37:35,265 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:68]
+2025-12-23 12:29:59,654 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:68]
+2025-12-23 12:38:19,929 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:68]
+2025-12-23 12:45:35,980 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:68]

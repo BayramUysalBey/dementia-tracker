@@ -1,0 +1,29 @@
+<div>
+	<img src="{{ caregiver.avatar(64) }}" style="margin: 5px; float: left">
+	<p><a href="{{ url_for('main.caregiver', caregiver_name=caregiver.caregiver_name) }}">{{ caregiver.caregiver_name
+			}}</a></p>
+	{% if caregiver.about_me %}<p>{{ caregiver.about_me }}</p>{% endif %}
+	<div class="clearfix"></div>
+	{% if caregiver.last_seen %}
+	<p>{{ _('Last seen on') }}: {{ moment(caregiver.last_seen).format('lll') }}</p>
+	{% endif %}
+	<p>{{ _('%(count)d followers', count=caregiver.followers_count()) }}, {{ _('%(count)d following',
+		count=caregiver.following_count()) }}</p>
+	{% if caregiver != current_user %}
+	{% if not current_user.is_following(caregiver) %}
+	<p>
+	<form action="{{ url_for('main.follow', caregiver_name=caregiver.caregiver_name) }}" method="post">
+		{{ form.hidden_tag() }}
+		{{ form.submit(value=_('Follow'), class_='btn btn-outline-primary btn-sm') }}
+	</form>
+	</p>
+	{% else %}
+	<p>
+	<form action="{{ url_for('main.unfollow', caregiver_name=caregiver.caregiver_name) }}" method="post">
+		{{ form.hidden_tag() }}
+		{{ form.submit(value=_('Unfollow'), class_='btn btn-outline-primary btn-sm') }}
+	</form>
+	</p>
+	{% endif %}
+	{% endif %}
+</div>

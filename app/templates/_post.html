@@ -1,0 +1,34 @@
+<table class="table table-hover">
+	<tr>
+		<td width="70px">
+			<a href="{{ url_for('main.caregiver', caregiver_name=symptomlog.observer.caregiver_name) }}">
+				<img src="{{ symptomlog.observer.avatar(70) }}" />
+			</a>
+		</td>
+		<td>
+			{% set user_link %}
+			<a class="caregiver_popup"
+				href="{{ url_for('main.caregiver', caregiver_name=symptomlog.observer.caregiver_name) }}">
+				{{ symptomlog.observer.caregiver_name }}
+			</a>
+			{% endset %}
+			<a href="{{ url_for('main.caregiver', caregiver_name=symptomlog.observer.caregiver_name) }}">
+				{{ symptomlog.observer.caregiver_name }}
+			</a>
+			noted {{moment(symptomlog.timestamp).fromNow() }}:
+			<br>
+			{{ symptomlog.diagnosis }}
+			{% if symptomlog.observer == current_user %}
+			<br><br>
+			<div class="d-flex gap-2">
+				<a href="{{ url_for('main.edit_symptom', id=symptomlog.id) }}" class="btn btn-sm btn-outline-primary">{{
+					_('Edit') }}</a>
+				<form action="{{ url_for('main.delete_symptom', id=symptomlog.id) }}" method="post"
+					onsubmit="return confirm('Are you sure you want to delete this symptom log?');">
+					<button type="submit" class="btn btn-sm btn-outline-danger">{{ _('Delete') }}</button>
+				</form>
+			</div>
+			{% endif %}
+		</td>
+	</tr>
+</table>

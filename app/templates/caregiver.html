@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+<table class="table table-hover">
+	<tr>
+		<td width="256px"><img src="{{ caregiver.avatar(256) }}"></td>
+		<td>
+			<h1>Caregiver: {{ caregiver.caregiver_name }}</h1>
+			{% if caregiver.about_me %}<p>{{ caregiver.about_me }}</p>{% endif %}
+			{% if caregiver.last_seen %}
+			<p>{{ _('Last seen on') }}: {{ moment(caregiver.last_seen).format('LLL') }}</p>
+			{% endif %}
+			<p>{{ caregiver.followers_count() }} {{ _('followers') }}, {{ caregiver.following_count() }} {{
+				_('following') }}.</p>
+			{% if caregiver == current_user %}
+			<p><a href="{{ url_for('main.edit_profile') }}">{{ _('Edit your profile') }}</a></p>
+			{% if not current_user.get_task_in_progress('export_symptomlogs') %}
+			<p><a href="{{ url_for('main.export_symptomlogs') }}">{{ _('Export your symptomlogs') }}</a></p>
+			{% endif %}
+			{% elif not current_user.is_following(caregiver) %}
+			<p>
+			<form action="{{ url_for('main.follow', caregiver_name=caregiver.caregiver_name) }}" method="post">
+				{{ form.hidden_tag() }}
+				{{ form.submit(value=_('Follow'), class_='btn btn-primary') }}
+			</form>
+			</p>
+			{% else %}
+			<p>
+			<form action="{{ url_for('main.unfollow', caregiver_name=caregiver.caregiver_name) }}" method="post">
+				{{ form.hidden_tag() }}
+				{{ form.submit(value=_('Unfollow'), class_='btn btn-primary') }}
+			</form>
+			</p>
+			{% endif %}
+			{% if caregiver != current_user %}
+			<p>
+				<a href="{{ url_for('main.send_message',
+                                        recipient=caregiver.caregiver_name) }}">
+					{{ _('Send private message') }}
+				</a>
+			</p>
+			{% endif %}
+		</td>
+	</tr>
+</table>
+{% for symptomlog in symptomlogs %}
+{% include '_post.html' %}
+<div class="symptomlog">
+	<div class="timestamp">{{ symptomlog.timestamp.strftime('%Y-%m-%d %H:%M') }}</div>
+
+	<span class="severity-badge badge {{ get_severity_display(symptomlog.severity).color }}">
+		{{ get_severity_display(symptomlog.severity).name }}
+	</span>
+
+	<p>{{ symptomlog.diagnosis }}</p>
+
+	<div class="symptomlog-observer">
+		<a href="{{ url_for('main.caregiver', caregiver_name=symptomlog.observer.caregiver_name) }}">
+			{{ symptomlog.observer.caregiver_name }}
+		</a>
+	</div>
+</div>
+{% endfor %}
+<nav aria-label="Symptomlog navigation">
+	<ul class="pagination">
+		<li class="page-item{% if not prev_url %} disabled{% endif %}">
+			<a class="page-link" href="{{ prev_url }}">
+				<span aria-hidden="true">&larr;</span> {{ _('Newer symptomlogs') }}
+			</a>
+		</li>
+		<li class="page-item{% if not next_url %} disabled{% endif %}">
+			<a class="page-link" href="{{ next_url }}">
+				{{ _('Older symptomlogs') }} <span aria-hidden="true">&rarr;</span>
+			</a>
+		</li>
+	</ul>
+</nav>
+{% endblock %}

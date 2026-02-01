@@ -1,0 +1,65 @@
+services:
+  # 1. THE FLASK APPLICATION
+  web:
+    build: .
+    # Pass the gunicorn command as arguments to boot.sh
+    command: gunicorn -b :5000 --access-logfile - --error-logfile - "dementia:app"
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    environment:
+      # Only web service should handle the database migrations
+      - RUN_MIGRATIONS=true
+      # CRITICAL: Tell Flask to look for Redis at the service name 'redis'
+      - REDIS_URL=redis://redis:6379/0
+      # REDIRECT: Pointing to the host machine's PostgreSQL
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@host.docker.internal:5432/${POSTGRES_DB}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - redis
+    volumes:
+      # FIXED: Changed from /app to /dementia to match your Dockerfile WORKDIR
+      - .:/dementia
+
+  # 2. THE POSTGRES DATABASE (Optional now, metadata only)
+  db:
+    image: postgres:15-alpine
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - dementia_postgres_data:/var/lib/postgresql/data
+
+  # 3. THE REDIS SERVER (Added for Chapter 22)
+  redis:
+    image: redis:alpine
+    ports:
+      - "6380:6379"
+
+  # 4. THE RQ WORKER (The background process)
+  worker:
+    build: .
+    # Pass the worker command as arguments to boot.sh
+    command: rq worker -u redis://redis:6379/0 dementia-tasks
+    env_file:
+      - .env
+    environment:
+      # Worker should NOT run migrations
+      - RUN_MIGRATIONS=false
+      # REDIRECT: Pointing to the host machine's PostgreSQL
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@host.docker.internal:5432/${POSTGRES_DB}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - redis
+    volumes:
+      # FIXED: Match the volume here as well
+      - .:/dementia
+
+volumes:
+  dementia_postgres_data:
