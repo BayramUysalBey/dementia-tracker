@@ -37,6 +37,7 @@ else:
 # --- 2. RUN MIGRATIONS ---
 if [ "$RUN_MIGRATIONS" = "true" ]; then
     echo "Running database migrations..."
+	# Note: If this fails with a Redis ValueError, ensure REDIS_URL is set in Render.
     flask db upgrade
 fi
 
