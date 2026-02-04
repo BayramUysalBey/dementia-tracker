@@ -206,6 +206,22 @@ def export_symptomlogs():
     return redirect(url_for('main.caregiver', caregiver_name=current_user.caregiver_name))
 
 
+
+@bp.route('/reindex_search')
+@login_required
+def reindex_search():
+    if current_user.email not in current_app.config['ADMINS']:
+        flash(_('You do not have permission to perform this action.'))
+        return redirect(url_for('main.index'))
+    if current_user.get_task_in_progress('reindex_search'):
+        flash(_('A reindexing task is currently in progress.'))
+    else:
+        current_user.launch_task('reindex_search', _('Reindexing search...'))
+        db.session.commit()
+        flash(_('Reindexing task started. This may take a few minutes.'))
+    return redirect(url_for('main.index'))
+
+
 @bp.route('/notifications')
 @login_required
 def notifications():

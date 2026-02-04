@@ -54,3 +54,12 @@ def export_symptomlogs(caregiver_id):
         app.logger.error('Unhandled exception', exc_info=sys.exc_info())
     finally:
         _set_task_progress(100)
+
+def reindex_search():
+    try:
+        _set_task_progress(0)
+        SymptomLog.reindex()
+        _set_task_progress(100)
+    except Exception:
+        _set_task_progress(100)
+        app.logger.error('Unhandled exception during reindexing', exc_info=sys.exc_info())
