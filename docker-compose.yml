@@ -15,10 +15,12 @@ services:
       - REDIS_URL=redis://redis:6379/0
       # REDIRECT: Pointing to the host machine's PostgreSQL
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@host.docker.internal:5432/${POSTGRES_DB}
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
       - redis
+      - elasticsearch
     volumes:
       # FIXED: Changed from /app to /dementia to match your Dockerfile WORKDIR
       - .:/dementia
@@ -53,13 +55,28 @@ services:
       - RUN_MIGRATIONS=false
       # REDIRECT: Pointing to the host machine's PostgreSQL
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@host.docker.internal:5432/${POSTGRES_DB}
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
       - redis
+      - elasticsearch
     volumes:
       # FIXED: Match the volume here as well
       - .:/dementia
 
+  # 5. THE ELASTICSEARCH ENGINE
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.1
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+    volumes:
+      - dementia_elasticsearch_data:/usr/share/elasticsearch/data
+
 volumes:
   dementia_postgres_data:
+  dementia_elasticsearch_data:
