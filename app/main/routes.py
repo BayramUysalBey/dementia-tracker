@@ -220,11 +220,15 @@ def reindex_search():
             current_user.launch_task('reindex_search', _('Reindexing search...'))
             db.session.commit()
             flash(_('Reindexing task started in the background.'))
-        except:
+        except Exception as e:
             # Fallback for environments without Redis (e.g. Render free tier)
-            current_app.logger.warning('Redis queue unavailable, falling back to synchronous reindexing.')
-            SymptomLog.reindex()
-            flash(_('Reindexing completed (synchronously).'))
+            current_app.logger.warning(f'Redis queue unavailable or failed: {e}. Falling back to synchronous reindexing.')
+            try:
+                SymptomLog.reindex()
+                flash(_('Reindexing completed (synchronously).'))
+            except Exception as reindex_error:
+                current_app.logger.error(f'Synchronous reindexing failed: {reindex_error}')
+                flash(_(f'Reindexing failed: {reindex_error}'))
     return redirect(url_for('main.index'))
 
 

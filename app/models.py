@@ -199,6 +199,7 @@ def load_user(id):
     
 
 class SymptomLog(SearchableMixin, db.Model):
+    __tablename__ = 'symptom_log'
     __searchable__ = ['diagnosis']
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     diagnosis: so.Mapped[str] = so.mapped_column(sa.String(140))
