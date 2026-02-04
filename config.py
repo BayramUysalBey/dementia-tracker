@@ -15,6 +15,8 @@ class Config(object):
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     ADMINS = [os.environ.get('ADMIN_EMAIL') or 'your-email@example.com']
     ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
+    ELASTICSEARCH_USER = os.environ.get('ELASTICSEARCH_USER')
+    ELASTICSEARCH_PASS = os.environ.get('ELASTICSEARCH_PASS')
     REDIS_URL = os.environ.get('REDIS_URL') or 'redis://localhost:6379/0'
     SYMPTOMLOGS_PER_PAGE = 10
     MESSAGES_PER_PAGE = 10
