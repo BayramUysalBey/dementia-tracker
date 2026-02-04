@@ -149,11 +149,14 @@ def search():
     page = request.args.get('page', 1, type=int)
     symptomlogs, total = SymptomLog.search(g.search_form.q.data, page,
                                current_app.config['SYMPTOMLOGS_PER_PAGE'])
+    symptomlogs_list = list(symptomlogs)
+    current_app.logger.info(f'Search results: Found {total} in index, {len(symptomlogs_list)} matched in database.')
+    
     next_url = url_for('main.search', q=g.search_form.q.data, page=page + 1) \
         if total > page * current_app.config['SYMPTOMLOGS_PER_PAGE'] else None
     prev_url = url_for('main.search', q=g.search_form.q.data, page=page - 1) \
         if page > 1 else None
-    return render_template('search.html', title=_('Search'), symptomlogs=symptomlogs,
+    return render_template('search.html', title=_('Search'), symptomlogs=symptomlogs_list,
                            next_url=next_url, prev_url=prev_url)
 
 
@@ -217,6 +220,7 @@ def reindex_search():
         flash(_('A reindexing task is currently in progress.'))
     else:
         try:
+            current_app.logger.info(f'User {current_user.email} triggered search reindexing.')
             current_user.launch_task('reindex_search', _('Reindexing search...'))
             db.session.commit()
             flash(_('Reindexing task started in the background.'))
@@ -224,7 +228,9 @@ def reindex_search():
             # Fallback for environments without Redis (e.g. Render free tier)
             current_app.logger.warning(f'Redis queue unavailable or failed: {e}. Falling back to synchronous reindexing.')
             try:
+                current_app.logger.info('Starting manual synchronous reindexing...')
                 SymptomLog.reindex()
+                current_app.logger.info('Synchronous reindexing completed successfully.')
                 flash(_('Reindexing completed (synchronously).'))
             except Exception as reindex_error:
                 current_app.logger.error(f'Synchronous reindexing failed: {reindex_error}')
