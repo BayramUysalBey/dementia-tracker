@@ -21,6 +21,16 @@ def remove_from_index(index, model):
     except Exception as e:
         current_app.logger.error(f'Search delete error for ID {model.id} in {index}: {e}')
 
+def clear_index(index):
+    if not current_app.elasticsearch:
+        return
+    try:
+        if current_app.elasticsearch.indices.exists(index=index):
+            current_app.elasticsearch.indices.delete(index=index)
+            current_app.logger.info(f'Deleted index {index}')
+    except Exception as e:
+        current_app.logger.error(f'Error clearing index {index}: {e}')
+
 def query_index(index, query, page, per_page):
     if not current_app.elasticsearch:
         return [], 0

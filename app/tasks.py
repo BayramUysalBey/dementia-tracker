@@ -57,7 +57,9 @@ def export_symptomlogs(caregiver_id):
 
 def reindex_search(caregiver_id):
     try:
+        from app.search import clear_index
         _set_task_progress(0)
+        clear_index(SymptomLog.__tablename__)
         SymptomLog.reindex()
         _set_task_progress(100)
     except Exception:

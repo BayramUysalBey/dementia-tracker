@@ -228,7 +228,10 @@ def reindex_search():
             # Fallback for environments without Redis (e.g. Render free tier)
             current_app.logger.warning(f'Redis queue unavailable or failed: {e}. Falling back to synchronous reindexing.')
             try:
-                current_app.logger.info('Starting manual synchronous reindexing...')
+                from app.search import clear_index
+                db_count = db.session.scalar(sa.select(sa.func.count()).select_from(SymptomLog))
+                current_app.logger.info(f'Starting manual synchronous reindexing for {db_count} documents...')
+                clear_index(SymptomLog.__tablename__)
                 SymptomLog.reindex()
                 current_app.logger.info('Synchronous reindexing completed successfully.')
                 flash(_('Reindexing completed (synchronously).'))
