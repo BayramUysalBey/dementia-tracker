@@ -252,7 +252,10 @@ def check_search_sync():
     index = SymptomLog.__tablename__
     
     if not current_app.elasticsearch:
-        report.append("Elasticsearch is NOT configured.")
+        report.append("Elasticsearch is NOT configured in the app.")
+        report.append(f"ELASTICSEARCH_URL present: {'Yes' if current_app.config.get('ELASTICSEARCH_URL') else 'No'}")
+        report.append(f"ELASTICSEARCH_USER present: {'Yes' if current_app.config.get('ELASTICSEARCH_USER') else 'No'}")
+        report.append(f"ELASTICSEARCH_PASS present: {'Yes' if current_app.config.get('ELASTICSEARCH_PASS') else 'No'}")
     else:
         try:
             # Get ES document IDs
