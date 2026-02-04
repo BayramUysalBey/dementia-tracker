@@ -241,6 +241,53 @@ def reindex_search():
     return redirect(url_for('main.index'))
 
 
+@bp.route('/check_search_sync')
+@login_required
+def check_search_sync():
+    if current_user.email not in current_app.config['ADMINS']:
+        flash(_('You do not have permission to perform this action.'))
+        return redirect(url_for('main.index'))
+    
+    report = []
+    index = SymptomLog.__tablename__
+    
+    if not current_app.elasticsearch:
+        report.append("Elasticsearch is NOT configured.")
+    else:
+        try:
+            # Get ES document IDs
+            search = current_app.elasticsearch.search(
+                index=index,
+                body={'query': {'match_all': {}}, 'fields': ['_id'], '_source': False},
+                size=1000
+            )
+            es_ids = [int(hit['_id']) for hit in search['hits']['hits']]
+            
+            # Get DB document IDs
+            db_ids = [log.id for log in db.session.scalars(sa.select(SymptomLog)).all()]
+            
+            report.append(f"Elasticsearch IDs: {es_ids}")
+            report.append(f"Database IDs: {db_ids}")
+            
+            mismatched_es = [id for id in es_ids if id not in db_ids]
+            mismatched_db = [id for id in db_ids if id not in es_ids]
+            
+            if mismatched_es:
+                report.append(f"Mismatched IDs (in ES but NOT in DB): {mismatched_es}")
+            if mismatched_db:
+                report.append(f"Mismatched IDs (in DB but NOT in ES): {mismatched_db}")
+                
+            if not mismatched_es and not mismatched_db:
+                report.append("SUCCESS: All IDs are synchronized!")
+            else:
+                report.append("WARNING: Sync mismatch detected. Please run /reindex_search")
+                
+        except Exception as e:
+            report.append(f"Error during check: {e}")
+            
+    return "<br>".join(report)
+
+
 @bp.route('/notifications')
 @login_required
 def notifications():

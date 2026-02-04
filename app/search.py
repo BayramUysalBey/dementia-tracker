@@ -35,10 +35,21 @@ def query_index(index, query, page, per_page):
     if not current_app.elasticsearch:
         return [], 0
     try:
-        current_app.logger.info(f'Searching {index} for "{query}" (page {page})')
+        current_app.logger.info(f'Searching {index} for "{query}" (page {page}, query_string mode)')
+        # Use query_string for better wildcard/multi-word behavior
+        # "*" attached to query allows partial word matching
+        search_query = query if '*' in query else f"*{query}*"
         search = current_app.elasticsearch.search(
             index=index,
-            body={'query': {'multi_match': {'query': query, 'fields': ['*']}}},
+            body={
+                'query': {
+                    'query_string': {
+                        'query': search_query,
+                        'fields': ['*'],
+                        'default_operator': 'AND'
+                    }
+                }
+            },
             from_=(page - 1) * per_page,
             size=per_page)
         ids = [int(hit['_id']) for hit in search['hits']['hits']]
