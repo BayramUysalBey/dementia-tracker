@@ -3,7 +3,9 @@
 {% block content %}
 <h1>{{ _('Search Results') }}</h1>
 {% for symptomlog in symptomlogs %}
-{% include '_post.html' %}
+	{% include '_post.html' %}
+{% else %}
+	<p>{{ _('No results found.') }}</p>
 {% endfor %}
 <nav aria-label="Symptomlog navigation">
 	<ul class="pagination">
