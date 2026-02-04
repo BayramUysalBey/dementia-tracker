@@ -12,8 +12,8 @@ colorama==0.4.6
 croniter==6.0.0
 cryptography==46.0.1
 dnspython==2.8.0
-elastic-transport==9.1.0
-elasticsearch==9.1.1
+elastic-transport==8.10.0
+elasticsearch==8.11.0
 email-validator==2.3.0
 Flask==2.3.3
 flask-babel==4.0.0
