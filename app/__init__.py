@@ -36,8 +36,17 @@ def create_app(config_class=Config):
     mail.init_app(app)
     moment.init_app(app)
     babel.init_app(app)
-    app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
-        if app.config['ELASTICSEARCH_URL'] else None
+    if app.config['ELASTICSEARCH_URL']:
+        auth = None
+        if app.config.get('ELASTICSEARCH_USER') and app.config.get('ELASTICSEARCH_PASS'):
+            auth = (app.config['ELASTICSEARCH_USER'], app.config['ELASTICSEARCH_PASS'])
+        
+        app.elasticsearch = Elasticsearch(
+            app.config['ELASTICSEARCH_URL'],
+            basic_auth=auth
+        )
+    else:
+        app.elasticsearch = None
     app.redis = Redis.from_url(app.config['REDIS_URL'])
     app.task_queue = rq.Queue('dementia-tasks', connection=app.redis)
     
