@@ -55,7 +55,7 @@ def export_symptomlogs(caregiver_id):
     finally:
         _set_task_progress(100)
 
-def reindex_search():
+def reindex_search(caregiver_id):
     try:
         _set_task_progress(0)
         SymptomLog.reindex()

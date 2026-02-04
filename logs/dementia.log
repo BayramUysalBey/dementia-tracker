@@ -80,3 +80,5 @@ werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'export
 2026-02-04 12:22:13,708 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:94]
 2026-02-04 12:31:03,442 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:94]
 2026-02-04 12:35:46,447 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:94]
+2026-02-04 12:51:51,908 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:94]
+2026-02-04 13:09:12,897 INFO: Dementia Tracker startup [in /dementia/app/__init__.py:94]

@@ -216,9 +216,15 @@ def reindex_search():
     if current_user.get_task_in_progress('reindex_search'):
         flash(_('A reindexing task is currently in progress.'))
     else:
-        current_user.launch_task('reindex_search', _('Reindexing search...'))
-        db.session.commit()
-        flash(_('Reindexing task started. This may take a few minutes.'))
+        try:
+            current_user.launch_task('reindex_search', _('Reindexing search...'))
+            db.session.commit()
+            flash(_('Reindexing task started in the background.'))
+        except:
+            # Fallback for environments without Redis (e.g. Render free tier)
+            current_app.logger.warning('Redis queue unavailable, falling back to synchronous reindexing.')
+            SymptomLog.reindex()
+            flash(_('Reindexing completed (synchronously).'))
     return redirect(url_for('main.index'))
 
 
