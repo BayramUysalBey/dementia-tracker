@@ -6,13 +6,14 @@
 
 ## 📌 Project Overview
 
-**Dementia Tracker** is a dedicated web application designed to help caregivers monitor, log, and share the symptoms and progress of loved ones living with dementia. 
+**Dementia Tracker** is a dedicated web application designed to help caregivers monitor, log, and share the symptoms and progress of loved ones living with dementia.
 
 **Live Demo**: [https://dementia-tracker.onrender.com](https://dementia-tracker.onrender.com)
 
-This project was developed over 5 months (May 2023 - February 2026) as a personal journey to master backend development through real-world application, heavily inspired by Miguel Grinberg's "Flask Mega-Tutorial" and fueled by my personal experience as a caregiver.
+This project was developed over 5 months (August 2025 - February 2026) as a personal journey to master backend development through real-world application, heavily inspired by Miguel Grinberg's "Flask Mega-Tutorial" and fueled by my personal experience as a caregiver.
 
 ### 🌟 Inspiration
+
 In May 2023, my mother was diagnosed with dementia. Since August 2024, I have been her primary caregiver while transitioning my career into backend development. This project represents both my technical growth and my commitment to improving life for fellow caregivers.
 
 ---
@@ -48,30 +49,41 @@ In May 2023, my mother was diagnosed with dementia. Since August 2024, I have be
 ## ⚙️ Setup & Installation
 
 ### Option 1: Using Docker (Recommended)
-1.  Clone the repository.
-2.  Create a `.env` file based on `.env.example`.
-3.  Run the containers:
+
+1. Clone the repository.
+2. Create a `.env` file based on `.env.example`.
+3. Run the containers:
+
     ```bash
     docker-compose up --build
     ```
-4.  Access the app at `http://localhost:5000`.
+
+4. Access the app at `http://localhost:5000`.
 
 ### Option 2: Local Development
-1.  Create a virtual environment:
+
+1. Create a virtual environment:
+
     ```bash
     python -m venv venv
     source venv/bin/activate  # On Windows: venv\Scripts\activate
     ```
-2.  Install dependencies:
+
+2. Install dependencies:
+
     ```bash
     pip install -r requirements.txt
     ```
-3.  Set environment variables in `.env`.
-4.  Initialize the database:
+
+3. Set environment variables in `.env`.
+4. Initialize the database:
+
     ```bash
     flask db upgrade
     ```
-5.  Run the application:
+
+5. Run the application:
+
     ```bash
     flask run
     ```
@@ -100,7 +112,7 @@ In May 2023, my mother was diagnosed with dementia. Since August 2024, I have be
 
 ## 🏁 Closure: Version 1
 
-This project has been a monumental learning experience. It taught me the complexities of database design, the nuance of background processing, and the importance of user-centric features. 
+This project has been a monumental learning experience. It taught me the complexities of database design, the nuance of background processing, and the importance of user-centric features.
 
 As I "finish" this project in my mind, the code here serves as a foundation for **Dementia Tracker v2**, where I plan to transition to **FastAPI**, implement a more structured data model (aggression levels, sleep patterns), and focus on professional PDF reporting for medical visits.
 
@@ -109,4 +121,5 @@ As I "finish" this project in my mind, the code here serves as a foundation for 
 ---
 
 ## 📄 License
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
